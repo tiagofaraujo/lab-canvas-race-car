@@ -2,9 +2,8 @@
   "name": "lab-canvas-race-car",
   "version": "1.0.0",
   "description": "![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)",
-  "main": "./js/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+   "scripts": {
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
