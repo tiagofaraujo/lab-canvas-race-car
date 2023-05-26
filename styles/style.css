@@ -35,4 +35,65 @@ body button {
 #game-board {
     float: left;
     padding: 20px 0px;
+
+}
+
+/* responsive mode */
+@media (max-width: 768px) {
+  .game-intro {
+    padding: 0% 5%;
+  }
+
+  .logo-img {
+    width: 250px;
+  }
+
+  .arrows-img {
+    width: 100px;
+  }
+
+  body button {
+    font-size: 20px;
+    padding: 10px 20px;
+  }
+}
+
+/* Default styles for all screen sizes */
+@media (max-width: 480px) {
+  .game-intro {
+    padding: 0% 5%;
+  }
+
+  .logo-img {
+    width: 200px;
+  }
+
+  .arrows-img {
+    width: 80px;
+  }
+
+  body button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
+}
+
+/* Default to small devices */
+@media (max-width: 320px) {
+  .game-intro {
+    padding: 0% 5%;
+  }
+
+  .logo-img {
+    width: 150px;
+  }
+
+  .arrows-img {
+    width: 60px;
+  }
+
+  body button {
+    font-size: 15px;
+    padding: 10px 20px;
+  }
 }
