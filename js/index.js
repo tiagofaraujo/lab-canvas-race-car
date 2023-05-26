@@ -1,15 +1,26 @@
 // Game Class
 class Game {
+	//[PT] Construtor da classe
+	//[EN] Class constructor
 	constructor(canvasId) {
+		//[PT] Obter o canvas e o contexto
+		//[EN] Get the canvas and the context
 	  this.canvas = document.getElementById(canvasId);
+	  //[PT] Definir o contexto como 2d
+	  //[EN] Set the context to 2d
 	  this.ctx = this.canvas.getContext("2d");
 	  this.player = new Player(110, 460, 60, 120, "../images/car.png", 5);
 	  this.obstacles = [];
 	  this.score = 0;
+	  //[PT] Variável para verificar se o jogo terminou
+	  //[EN] Variable to check if the game is over
 	  this.isGameOver = false;
+	  //[PT] Variável para armazenar o ID do intervalo
+	  //[EN] Variable to store the interval ID
 	  this.intervalId = null;
   
-	  // Event listeners para movimento do jogador
+	   //[PT] Evento para quando uma tecla é pressionada
+	  //[EN] Event for when a key is pressed
 	  this.keys = {};
 	  document.onkeydown = (event) => {
 		switch (event.key) {
@@ -36,7 +47,8 @@ class Game {
 	  };
 	}
   
-	// Função para iniciar o jogo
+	//[PT] Função para iniciar o jogo
+	//[EN] Function to start the game
 	start() {
 	  this.intervalId = setInterval(() => {
 		this.spawnObstacle();
@@ -45,42 +57,60 @@ class Game {
 	  this.update();
 	}
   
-	// Função para desenhar o cenário (estrada)
+	//[PT] Função para desenhar o cenário (estrada)
+	//[EN] Function to draw the board (road)
 	drawBoard() {
-	  const roadWidth = this.canvas.width - 10; // Largura da estrada (considerando a margem)
-	  const roadX = 10; // Posição X inicial da estrada (considerando a margem)
-	  const roadY = 0; // Posição Y inicial da estrada
-	  const roadHeight = this.canvas.height; // Altura da estrada
+		//[PT] Largura da estrada (considerando a margem)
+		//[EN] Road width (considering the margin)
+	  const roadWidth = this.canvas.width - 10; 
+	  //[PT] Posição X inicial da estrada (considerando a margem)
+	  //[EN] Initial X position of the road (considering the margin)
+	  const roadX = 10; 
+	  //[PT] Posição Y inicial da estrada
+	  //[EN] Initial Y position of the road
+	  const roadY = 0; 
+	  //[PT] Altura da estrada
+	  //[EN] Road height
+	  const roadHeight = this.canvas.height; 
   
-	  // Repetir o desenho do cenário para preencher o canvas inteiro
+	  //[PT] Padrão para desenhar a estrada (repetir a imagem)
+	  //[EN] Pattern to draw the road (repeat the image)
 	  const pattern = this.ctx.createPattern(this.road, "repeat");
 	  this.ctx.fillStyle = pattern;
   
-	  // Desenhar a estrada dentro das bordas (considerando a margem)
+	  //[PT] Desenhar a estrada (retângulo)
+	  //[EN] Draw the road (rectangle)
 	  this.ctx.fillRect(roadX, roadY, roadWidth, roadHeight);
 	}
   
-	// Função para desenhar o cenário, jogador, obstáculos e pontuação
+	//[PT] Função para desenhar o cenário, jogador, obstáculos e pontuação
+	//[EN] Function to draw the board, player, obstacles and score
 	drawScene() {
-	  // Limpar o canvas
+	  //[PT] Limpar o canvas
+	  //[EN] Clear the canvas
 	  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   
-	  // Desenhar o cenário
+	  //[PT] Desenhar o cenário
+	  //[EN] Draw the board
 	  this.drawBoard();
   
-	  // Desenhar o jogador
+	  //[PT] Desenhar o jogador
+	  //[EN] Draw the player
 	  this.player.draw(this.ctx);
   
-	  // Desenhar os obstáculos
+	  //[PT] Desenhar os obstáculos
+	  //[EN] Draw the obstacles
 	  this.obstacles.forEach((obstacle) => {
 		obstacle.draw(this.ctx);
 	  });
 	}
 	displayGameOver() {
-	  // Clear the canvas
+	  //[PT] Limpar o canvas
+	  //[EN] Clear the canvas
 	  this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   
-	  // Display the final score
+	  //[PT] Exibir a pontuação final
+	  //[EN] Display the final score
 	  this.ctx.font = "40px Arial";
 	  this.ctx.fillStyle = "black";
 	  this.ctx.fillText(
@@ -89,7 +119,8 @@ class Game {
 		this.canvas.height / 2 - 40
 	  );
   
-	  // Display the "Game Over" image
+	  //[PT] Exibir a imagem "Game Over"
+	  //[EN] Display the "Game Over" image
 	  const gameOverImage = new Image();
 	  gameOverImage.src = "../images/game-over.png";
 	  gameOverImage.onload = () => {
@@ -98,13 +129,15 @@ class Game {
 		const imageX = this.canvas.width / 2 - imageWidth / 2; // X position to center the image horizontally
 		const imageY = this.canvas.height / 2 + 20; // Y position for the image
   
-		// Draw the image on the canvas
+		//[PT] Desenhar a imagem no canvas
+		//[ENG] Draw the image on the canvas
 		this.ctx.drawImage(gameOverImage, imageX, imageY, imageWidth, imageHeight);
 	  };
 	}
 	
   
-	// Função para atualizar a lógica do jogo
+	//[PT] Função para atualizar a lógica do jogo
+	//[EN] Function to update the game logic
 	update() {
 	  if (this.isGameOver) {
 		clearInterval(this.intervalId);
@@ -112,7 +145,8 @@ class Game {
 		return;
 	  }
   
-	  // Movimentar o jogador
+	  //[PT] Movimentar o jogador
+	  //[EN] Move the player
 	  if (this.keys.ArrowLeft && this.player.x > 0) {
 		this.player.moveLeft();
 	  } else if (
@@ -122,24 +156,29 @@ class Game {
 		this.player.moveRight();
 	  }
   
-	  // Verificar colisão com obstáculos
+	  //[PT] Verificar colisão com obstáculos
+	  //[EN] Check collision with obstacles
 	  this.obstacles.forEach((obstacle) => {
 		if (this.player.checkCollision(obstacle)) {
 		  this.isGameOver = true;
 		}
 	  });
   
-	  // Mover os obstáculos
+	  //[PT] Mover os obstáculos
+	  //[EN] Move the obstacles
 	  this.moveObstacles();
   
-	  // Atualizar o desenho do cenário
+	  //[PT] Atualizar o desenho do cenário
+	  //[EN] Update the board drawing
 	  this.drawScene();
   
-	  // Chamar a próxima atualização do jogo
+	  //[PT] Chamar a próxima atualização do jogo
+	  //[EN] Call the next game update
 	  requestAnimationFrame(this.update.bind(this));
 	}
   
-	// Função para criar obstáculos
+	//[PT] Função para criar obstáculos
+	//[EN] Function to create obstacles
 	spawnObstacle() {
 	  const obstacleWidth = 130; // Fixed obstacle width
 	  const obstacleHeight = 40; // Fixed obstacle height
@@ -164,16 +203,20 @@ class Game {
 	}
 	
   
-	// Função para mover os obstáculos
+	//[PT] Função para mover os obstáculos
+	//[EN] Function to move the obstacles
 	moveObstacles() {
 	  this.obstacles.forEach((obstacle) => {
-		obstacle.y += 1; // Velocidade de movimento dos obstáculos
+		obstacle.y += 1; //[PT] Velocidade de movimento dos obstáculos
+						//[EN] Obstacles movement speed	
   
 		if (obstacle.y > this.canvas.height) {
-		  // Remover obstáculo se passar do limite
+		  //[PT] Remover obstáculo se passar do limite
+		  //[EN] Remove obstacle if it passes the limit
 		  const index = this.obstacles.indexOf(obstacle);
 		  this.obstacles.splice(index, 1);
-		  this.score += 1; // Incrementar pontuação quando obstáculo é evitado
+		  this.score += 1; //[PT] Incrementar pontuação quando obstáculo é evitado
+						   //[EN] Increment score when obstacle is avoided
 		}
 	  });
 	}
@@ -186,29 +229,31 @@ class Game {
 	  this.y = y;
 	  this.width = width;
 	  this.height = height;
-	  //q: how to speed up the player
-	  //a: add a speed parameter to the constructor and use it in the move methods below 
 	  this.speed = speed;
 	  this.speed = speed;
 	  this.image = new Image();
 	  this.image.src = imageSrc;
 	}
   
-	// Função para desenhar o jogador
+	//[PT] Função para desenhar o jogador
+	//[EN] Function to draw the player
 	draw(ctx) {
 	  ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
 	}
   
-	// Função para mover o jogador para a esquerda
+	//[PT] Função para mover o jogador para a esquerda
+	//[EN] Function to move the player to the left
 	moveLeft() {
 	  this.x -= this.speed 
 	}
-	// Função para mover o jogador para a direita
+	//[PT] Função para mover o jogador para a direita
+	//[EN] Function to move the player to the right
 	moveRight() {
 	  this.x += this.speed;
 	}
   
-	// Função para verificar colisão com um obstáculo
+	//[PT] Função para verificar colisão com um obstáculo
+	//[EN] Function to check collision with an obstacle
 	checkCollision(obstacle) {
 	  return (
 		this.x < obstacle.x + obstacle.width &&
@@ -229,14 +274,15 @@ class Game {
 	  this.color = color;
 	}
   
-	// Função para desenhar o obstáculo
+	//[PT] Função para desenhar o obstáculo
+	//[EN] Function to draw the obstacle	
 	draw(ctx) {
 	  ctx.fillStyle = this.color;
 	  ctx.fillRect(this.x, this.y, this.width, this.height);
 	}
   }
   
-  // Criação do objeto Game e início do jogo
+  //[PT] Criação do objeto Game e início do jogo
   window.onload = () => {
 	document.getElementById("start-button").onclick = () => {
 	  const game = new Game("canvas");
